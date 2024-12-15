@@ -1,12 +1,15 @@
 import PropTypes from "prop-types";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import EditProductModal from "./EditProductModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Alert from "./Alert";
 
 export default function ProductCard({ listOfProducts, setListOfProducts }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [deleteMessage, setDeleteMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   // Modal Behavior
   function close() {
@@ -28,7 +31,14 @@ export default function ProductCard({ listOfProducts, setListOfProducts }) {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then(() => {
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          setDeleteMessage(data.message); // Set the success message
+          setShowAlert(true);
+
+          console.log(deleteMessage);
+        }
         setListOfProducts((prevProducts) =>
           prevProducts.filter((prod) => prod._id !== product._id)
         );
@@ -37,6 +47,13 @@ export default function ProductCard({ listOfProducts, setListOfProducts }) {
         console.error({ message: error });
       });
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 5000);
+  }, [showAlert]);
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -44,7 +61,7 @@ export default function ProductCard({ listOfProducts, setListOfProducts }) {
           Our latest list of products for sale
         </h2>
 
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
           {listOfProducts.map((product) => (
             <div key={product._id} className="group relative">
               <Link to={`/product/${product._id}`}>
@@ -89,6 +106,9 @@ export default function ProductCard({ listOfProducts, setListOfProducts }) {
               />
             </div>
           ))}
+
+          {/* ALERT TOAST */}
+          {showAlert && <Alert message={deleteMessage} />}
         </div>
       </div>
     </div>

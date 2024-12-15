@@ -4,8 +4,10 @@ import AddProductModal from "../components/AddProductModal";
 
 function HomePage() {
   const [listOfProducts, setListOfProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getListOfProducts = async () => {
+    setLoading(true);
     fetch("http://localhost:9000/api/products")
       .then((res) => {
         if (!res) {
@@ -15,6 +17,9 @@ function HomePage() {
       })
       .then((data) => {
         setListOfProducts(data);
+      })
+      .finally(() => {
+        setLoading(false);
       })
       .catch((error) => {
         console.error("ERROR", error);
@@ -43,13 +48,15 @@ function HomePage() {
       </div>
 
       {/* LIST OF PRODUCTS */}
-      {listOfProducts.length !== 0 ? (
+      {loading ? (
+        <div>Products loading...</div>
+      ) : listOfProducts.length === 0 ? (
+        <div>No products at this moment</div>
+      ) : (
         <ProductCard
           listOfProducts={listOfProducts}
           setListOfProducts={setListOfProducts}
         />
-      ) : (
-        <div>Products loading...</div>
       )}
     </>
   );
