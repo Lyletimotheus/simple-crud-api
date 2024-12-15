@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import Modal from "../components/Modal";
+import Modal from "../components/AddProductModal";
 
 function HomePage() {
   const [listOfProducts, setListOfProducts] = useState([]);
