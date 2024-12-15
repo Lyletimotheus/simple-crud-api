@@ -6,8 +6,8 @@ export default function Modal() {
   const [isOpen, setIsOpen] = useState(false);
   const [addProductData, setAddProductData] = useState({
     name: "",
-    quantity: 0,
-    price: 0,
+    quantity: "",
+    price: "",
     image: "",
   });
 
@@ -20,9 +20,15 @@ export default function Modal() {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-    }).catch((error) => {
-      console.error({ message: error });
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          setAddProductData({ name: "", quantity: "", price: "", image: "" });
+        }
+      })
+      .catch((error) => {
+        console.error({ message: error });
+      });
   };
 
   const handleInputChange = (event) => {

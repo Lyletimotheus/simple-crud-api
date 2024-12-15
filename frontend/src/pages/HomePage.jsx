@@ -7,6 +7,8 @@ function HomePage() {
 
   // TODO: CLEAN THIS FILE TO BE MORE MODULAR BY USING REDUX
   // TODO: SETUP API FOLDER STRUCTURE
+  // TODO: REFACTOR CODE TO BE MODULAR FOR THE MODAL SO IT CAN BE REUSED OVER AND OVER AGAIN
+  // TODO: IMPROVE ERROR RESPONSE STRUCTURE ON BACKEND TO SHOW MESSAGE ON FE
 
   const getListOfProducts = async () => {
     const url = "http://localhost:9000/api/products";
@@ -40,7 +42,9 @@ function HomePage() {
         </h1>
 
         {/* MODAL */}
-        <Modal />
+        <div className="pt-10">
+          <Modal />
+        </div>
       </div>
       {listOfProducts.length !== 0 ? (
         <ProductCard products={listOfProducts} />
