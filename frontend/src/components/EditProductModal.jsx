@@ -3,7 +3,13 @@ import Input from "./Input";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-function EditProductModal({ isOpen, close, selectedProduct }) {
+function EditProductModal({
+  isOpen,
+  close,
+  selectedProduct,
+  setListOfProducts,
+  setIsOpen,
+}) {
   const [updatedProduct, setUpdatedProduct] = useState({
     name: "",
     quantity: "",
@@ -12,6 +18,7 @@ function EditProductModal({ isOpen, close, selectedProduct }) {
   });
 
   const handleSubmit = async (id) => {
+    event.preventDefault();
     fetch(`http://localhost:9000/api/products/${id}`, {
       method: "PUT",
       body: JSON.stringify(updatedProduct),
@@ -20,9 +27,19 @@ function EditProductModal({ isOpen, close, selectedProduct }) {
       },
     })
       .then((res) => {
-        if (res.ok) {
-          setUpdatedProduct({ name: "", quantity: "", price: "", image: "" });
+        if (!res.ok) {
+          throw new Error("Failed to add product");
         }
+        return res.json();
+      })
+      .then((newProduct) => {
+        setListOfProducts((prevProducts) =>
+          prevProducts.map((product) =>
+            product._id === id ? newProduct : product
+          )
+        );
+        setUpdatedProduct({ name: "", quantity: "", price: "", image: "" });
+        setIsOpen(false);
       })
       .catch((error) => {
         console.error({ message: error });
@@ -30,7 +47,6 @@ function EditProductModal({ isOpen, close, selectedProduct }) {
   };
 
   const handleInputChange = (event) => {
-    console.log(event);
     setUpdatedProduct({
       ...updatedProduct,
       [event.target.name]: event.target.value,
@@ -128,4 +144,6 @@ EditProductModal.propTypes = {
   isOpen: PropTypes.bool,
   close: PropTypes.func,
   selectedProduct: PropTypes.object,
+  setListOfProducts: PropTypes.func,
+  setIsOpen: PropTypes.func,
 };

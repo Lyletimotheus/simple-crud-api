@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import EditProductModal from "./EditProductModal";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ listOfProducts, setListOfProducts }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,11 +16,9 @@ export default function ProductCard({ listOfProducts, setListOfProducts }) {
   const editProduct = (product) => {
     setIsOpen(true);
     setSelectedProduct(product);
-    console.log(product);
   };
 
   const deleteProduct = (product) => {
-    console.log(product);
     setIsOpen(false);
     setSelectedProduct(product);
 
@@ -48,10 +47,12 @@ export default function ProductCard({ listOfProducts, setListOfProducts }) {
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
           {listOfProducts.map((product) => (
             <div key={product._id} className="group relative">
-              <img
-                src={product.image}
-                className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
-              />
+              <Link to={`/product/${product._id}`}>
+                <img
+                  src={product.image}
+                  className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
+                />
+              </Link>
 
               <div className="mt-4 flex justify-between">
                 <div>
@@ -83,6 +84,8 @@ export default function ProductCard({ listOfProducts, setListOfProducts }) {
                 isOpen={isOpen}
                 close={close}
                 selectedProduct={selectedProduct}
+                setListOfProducts={setListOfProducts}
+                setIsOpen={setIsOpen}
               />
             </div>
           ))}

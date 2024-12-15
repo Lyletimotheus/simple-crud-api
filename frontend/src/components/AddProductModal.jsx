@@ -45,6 +45,7 @@ export default function AddProductModal({ setListOfProducts }) {
     });
   };
 
+  // Modal behaviour
   function open() {
     setIsOpen(true);
   }

@@ -5,15 +5,8 @@ import AddProductModal from "../components/AddProductModal";
 function HomePage() {
   const [listOfProducts, setListOfProducts] = useState([]);
 
-  // TODO: CLEAN THIS FILE TO BE MORE MODULAR BY USING REDUX
-  // TODO: SETUP API FOLDER STRUCTURE
-  // TODO: REFACTOR CODE TO BE MODULAR FOR THE MODAL SO IT CAN BE REUSED OVER AND OVER AGAIN
-  // TODO: IMPROVE ERROR RESPONSE STRUCTURE ON BACKEND TO SHOW MESSAGE ON FE
-
   const getListOfProducts = async () => {
-    const url = "http://localhost:9000/api/products";
-
-    fetch(url)
+    fetch("http://localhost:9000/api/products")
       .then((res) => {
         if (!res) {
           throw new Error("Network response was not ok.");
@@ -21,7 +14,6 @@ function HomePage() {
         return res.json();
       })
       .then((data) => {
-        console.log("DATA", data);
         setListOfProducts(data);
       })
       .catch((error) => {
@@ -29,7 +21,7 @@ function HomePage() {
       });
   };
 
-  // GET LIST OF ALL PRODUCTS
+  // Get list of products
   useEffect(() => {
     getListOfProducts();
   }, []);
@@ -38,10 +30,10 @@ function HomePage() {
     <>
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-indigo-500 text-center pt-10">
-          List of Products
+          Product Inventory
         </h1>
 
-        {/* MODAL */}
+        {/* ADD PRODUCT MODAL */}
         <div className="pt-10">
           <AddProductModal
             setListOfProducts={setListOfProducts}
@@ -49,13 +41,15 @@ function HomePage() {
           />
         </div>
       </div>
+
+      {/* LIST OF PRODUCTS */}
       {listOfProducts.length !== 0 ? (
         <ProductCard
           listOfProducts={listOfProducts}
           setListOfProducts={setListOfProducts}
         />
       ) : (
-        <div>No products to show here...</div>
+        <div>Products loading...</div>
       )}
     </>
   );
