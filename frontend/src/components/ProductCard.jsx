@@ -18,7 +18,7 @@ export default function ProductCard({ products }) {
   };
 
   const deleteProduct = () => {
-    console.log("Delete prodcut");
+    console.log("Delete product");
   };
   return (
     <div className="bg-white">
