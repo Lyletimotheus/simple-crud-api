@@ -47,7 +47,10 @@ function HomePage() {
         </div>
       </div>
       {listOfProducts.length !== 0 ? (
-        <ProductCard products={listOfProducts} />
+        <ProductCard
+          products={listOfProducts}
+          setListOfProducts={setListOfProducts}
+        />
       ) : (
         <div>No products to show here...</div>
       )}

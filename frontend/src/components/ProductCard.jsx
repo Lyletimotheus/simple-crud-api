@@ -3,7 +3,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import EditProductModal from "./EditProductModal";
 import { useState } from "react";
 
-export default function ProductCard({ products }) {
+export default function ProductCard({ products, setListOfProducts }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -15,10 +15,28 @@ export default function ProductCard({ products }) {
   const editProduct = (product) => {
     setIsOpen(true);
     setSelectedProduct(product);
+    console.log(product);
   };
 
-  const deleteProduct = () => {
-    console.log("Delete product");
+  const deleteProduct = (product) => {
+    console.log(product);
+    setIsOpen(false);
+    setSelectedProduct(product);
+
+    fetch(`http://localhost:9000/api/products/${product._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then(() => {
+        setListOfProducts((prevProducts) =>
+          prevProducts.filter((prod) => prod._id !== product._id)
+        );
+      })
+      .catch((error) => {
+        console.error({ message: error });
+      });
   };
   return (
     <div className="bg-white">
@@ -56,7 +74,7 @@ export default function ProductCard({ products }) {
                 />
                 <TrashIcon
                   className="w-5 h-5 text-red-500 cursor-pointer"
-                  onClick={deleteProduct}
+                  onClick={() => deleteProduct(product)}
                 />
               </div>
 
@@ -76,4 +94,5 @@ export default function ProductCard({ products }) {
 
 ProductCard.propTypes = {
   products: PropTypes.array,
+  setListOfProducts: PropTypes.func,
 };
