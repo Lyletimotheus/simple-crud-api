@@ -3,7 +3,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import EditProductModal from "./EditProductModal";
 import { useState } from "react";
 
-export default function ProductCard({ products, setListOfProducts }) {
+export default function ProductCard({ listOfProducts, setListOfProducts }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -46,7 +46,7 @@ export default function ProductCard({ products, setListOfProducts }) {
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-          {products.map((product) => (
+          {listOfProducts.map((product) => (
             <div key={product._id} className="group relative">
               <img
                 src={product.image}
@@ -93,6 +93,6 @@ export default function ProductCard({ products, setListOfProducts }) {
 }
 
 ProductCard.propTypes = {
-  products: PropTypes.array,
+  listOfProducts: PropTypes.array,
   setListOfProducts: PropTypes.func,
 };

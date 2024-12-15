@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import Modal from "../components/AddProductModal";
+import AddProductModal from "../components/AddProductModal";
 
 function HomePage() {
   const [listOfProducts, setListOfProducts] = useState([]);
@@ -43,12 +43,15 @@ function HomePage() {
 
         {/* MODAL */}
         <div className="pt-10">
-          <Modal />
+          <AddProductModal
+            setListOfProducts={setListOfProducts}
+            listOfProducts={listOfProducts}
+          />
         </div>
       </div>
       {listOfProducts.length !== 0 ? (
         <ProductCard
-          products={listOfProducts}
+          listOfProducts={listOfProducts}
           setListOfProducts={setListOfProducts}
         />
       ) : (

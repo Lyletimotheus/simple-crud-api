@@ -1,8 +1,9 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
 import Input from "./Input";
+import PropTypes from "prop-types";
 
-export default function Modal() {
+export default function AddProductModal({ setListOfProducts }) {
   const [isOpen, setIsOpen] = useState(false);
   const [addProductData, setAddProductData] = useState({
     name: "",
@@ -22,9 +23,15 @@ export default function Modal() {
       },
     })
       .then((res) => {
-        if (res.ok) {
-          setAddProductData({ name: "", quantity: "", price: "", image: "" });
+        if (!res.ok) {
+          throw new Error("Failed to add product");
         }
+        return res.json();
+      })
+      .then((newProduct) => {
+        setListOfProducts((prevProducts) => [...prevProducts, newProduct]);
+        setAddProductData({ name: "", quantity: "", price: "", image: "" });
+        setIsOpen(false);
       })
       .catch((error) => {
         console.error({ message: error });
@@ -122,3 +129,8 @@ export default function Modal() {
     </>
   );
 }
+
+AddProductModal.propTypes = {
+  setListOfProducts: PropTypes.func,
+  listOfProducts: PropTypes.array,
+};
