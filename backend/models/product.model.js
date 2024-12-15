@@ -21,6 +21,8 @@ const ProductSchema = mongoose.Schema(
     image: {
       type: String,
       required: false,
+      default:
+        "https://www.shutterstock.com/image-vector/document-file-does-not-exist-600w-1873338646.jpg",
     },
   },
   { timestamps: true }

@@ -20,6 +20,12 @@ const getProduct = async (req, res) => {
 
 const createANewProduct = async (req, res) => {
   try {
+    // If no image is provided we send a back a default image
+    if (!req.body.image) {
+      req.body.image =
+        "https://www.shutterstock.com/image-vector/document-file-does-not-exist-600w-1873338646.jpg";
+    }
+
     const product = await Product.create(req.body);
     res.status(200).json(product);
   } catch (error) {

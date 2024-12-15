@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const productRoute = require("./routes/product.route.js");
-
+const cors = require("cors");
 const app = express();
 const port = 9000;
+
+app.use(cors());
 
 // Middleware
 app.use(express.json());

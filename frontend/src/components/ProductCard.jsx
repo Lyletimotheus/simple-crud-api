@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 export default function ProductCard({ products }) {
   return (
     <div className="bg-white">
@@ -26,6 +28,9 @@ export default function ProductCard({ products }) {
                   R {product.price}
                 </p>
               </div>
+              <div>
+                Available: <span>{product.quantity}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -33,3 +38,7 @@ export default function ProductCard({ products }) {
     </div>
   );
 }
+
+ProductCard.propTypes = {
+  products: PropTypes.array,
+};

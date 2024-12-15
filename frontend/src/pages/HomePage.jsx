@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Modal from "../components/Modal";
 
 function HomePage() {
   const [listOfProducts, setListOfProducts] = useState([]);
 
-  // TODO: INSTALL FORMIK AND IMPLEMENT CSV FOR INPUT FIELDS
-  // TODO: CLEAN THIS FILE TO BE MORE MODULAR
-  // TODO: MOVE DATA FETCHING TO GLOBAL REDUX STORE
+  // TODO: CLEAN THIS FILE TO BE MORE MODULAR BY USING REDUX
+  // TODO: SETUP API FOLDER STRUCTURE
+
   const getListOfProducts = async () => {
     const url = "http://localhost:9000/api/products";
 
@@ -27,6 +27,7 @@ function HomePage() {
       });
   };
 
+  // GET LIST OF ALL PRODUCTS
   useEffect(() => {
     getListOfProducts();
   }, []);
@@ -37,6 +38,7 @@ function HomePage() {
         <h1 className="text-3xl font-bold text-indigo-500 text-center pt-10">
           List of Products
         </h1>
+
         {/* MODAL */}
         <Modal />
       </div>
